@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe Sitemod::Matcher, "#directory_matches_uri?" do
   before(:each) do
-    @matcher = Sitemod::Matcher.new([])
+    @matcher = Sitemod::Matcher.instance
   end
 
   it 'matches domains correctly' do
@@ -58,7 +58,8 @@ describe Sitemod::Matcher, "#get_directories_for_url" do
   ]
 
   before(:each) do
-    @matcher = Sitemod::Matcher.new(directories)
+    @matcher = Sitemod::Matcher.instance
+    @matcher.directories = directories
   end
 
   context "with domain" do

@@ -2,15 +2,13 @@ require 'uri'
 
 module Sitemod
   class Matcher
-    attr_reader :directories
+    @@instance = nil
 
-    def initialize(directories)
-      @directories = directories
-    end
+    attr_writer :directories
 
     def get_directories_for_url(url)
       uri = URI(url)
-      directories.select { |directory| directory_matches_uri?(directory, uri) }
+      (@directories || []).select { |directory| directory_matches_uri?(directory, uri) }
     end
 
     def directory_matches_uri?(directory, uri)
@@ -31,6 +29,15 @@ module Sitemod
 
       # If it hasn't bailed by now, it must be good, right?
       true
+    end
+
+    def self.instance
+      @@instance = self.new unless @@instance
+      @@instance
+    end
+
+    private
+    def initialize
     end
   end
 end
