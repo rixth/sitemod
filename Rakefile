@@ -15,3 +15,11 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   require File.dirname(__FILE__) + '/spec/spec_helper'
   spec.pattern = FileList['spec/*.spec.rb']
 end
+
+desc "Start the server"
+task :start_server do
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
+  $LOAD_PATH.unshift(File.dirname(__FILE__))
+  require 'sitemod'
+  Sitemod::ModServer.run!
+end
