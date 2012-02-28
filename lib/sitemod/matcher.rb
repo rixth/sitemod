@@ -4,7 +4,7 @@ module Sitemod
   class Matcher
     @@instance = nil
 
-    attr_writer :directories
+    attr_accessor :directories
 
     def get_directories_for_url(url)
       uri = URI(url)
