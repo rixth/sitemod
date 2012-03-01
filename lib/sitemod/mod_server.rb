@@ -3,6 +3,7 @@ require 'json'
 
 module Sitemod
   class ModServer < ::Sinatra::Base
+    
     get '/mods_for' do
       data_manager = ModDataManager.instance
       data_manager.reload_mod_directories!
@@ -16,24 +17,19 @@ module Sitemod
     end
 
     get '/file/*' do
-      path = params[:splat].first
-      ext = path.split('.').last
+      # Security check
+      halt 400 if params[:splat].first['..']
 
-      if ext == 'js'
-        content_type 'text/javascript'
-        File.read("/Users/trix/.sitemods/" + path)
-      elsif ext == 'css'
-        content_type 'text/css'
-        File.read("/Users/trix/.sitemods/" + path)
-      elsif ext == 'coffee'
-        content_type 'text/javascript'
-        Tilt.new("/Users/trix/.sitemods/" + path).render
-      elsif ext == 'scss'
-        content_type 'text/css'
-        Tilt.new("/Users/trix/.sitemods/" + path).render
-      else
-        raise ::Sinatra::NotFound
-      end
+      path = File.expand_path(params[:splat].first, ModDataManager.instance.sitemod_path)
+      raise ::Sinatra::NotFound unless path && File.exist?(path)
+      ext = File.extname(path)
+      
+      content_type 'text/plain'
+      content_type 'text/javascript' if %w{.js .coffee}.include?(ext)
+      content_type 'text/css' if %w{.css .sass .scss}.include?(ext)
+      content_type 'text/html' if %w{.html .haml .slim}.include?(ext)
+
+      Tilt[ext.sub(/^\./, '')] ? Tilt.new(path).render : File.read(path)
     end
   end
 end
