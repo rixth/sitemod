@@ -9,4 +9,5 @@ gem 'rspec'
 
 group :development do
   gem 'guard-rspec'
+  gem 'guard-coffeescript'
 end
