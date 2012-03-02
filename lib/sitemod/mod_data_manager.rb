@@ -36,7 +36,7 @@ module Sitemod
 
     private
     def initialize
-      @sitemod_path = File.expand_path('~') + '/.sitemods'
+      @sitemod_path = File.expand_path('~') + '/.sitemod'
       @mod_directories = []
     end
 
