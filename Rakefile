@@ -16,6 +16,13 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/*.spec.rb']
 end
 
+desc "Build the extension"
+task :build_extension do
+  File.open("extension/sitemod.js", 'w+') do |f|
+    f.write Tilt.new("extension/sitemod.coffee").render
+  end
+end
+
 desc "Start the server"
 task :start_server do
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))

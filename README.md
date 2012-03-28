@@ -8,7 +8,7 @@ You can write your modifications in JavaScript, CoffeeScript, CSS or SCSS. When 
 
 ## Setup
 
-You need to install the browser extension, located in `extension/`, and start the server with `rake start_server`.
+You need to build and install the browser extension, located in `extension/` with `rake build_extension`, and start the server with `rake start_server`.
 
 ## Example
 
